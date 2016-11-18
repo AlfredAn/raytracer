@@ -6,6 +6,22 @@ import com.badlogic.gdx.utils.Pool;
 
 public final class Pools {
   
+  public final RaycastPool raycast = new RaycastPool();
+  public final ColorPool color = new ColorPool();
+  public final VectorPool vec3 = new VectorPool();
+  
+  public void free(RaycastResult raycastResult) {
+    raycast.free(raycastResult);
+  }
+  
+  public void free(Color col) {
+    color.free(col);
+  }
+  
+  public void free(Vector3 vec) {
+    vec3.free(vec);
+  }
+  
   public static final class RaycastPool extends Pool<RaycastResult> {
     
     public RaycastPool() {

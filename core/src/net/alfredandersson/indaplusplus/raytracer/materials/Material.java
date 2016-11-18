@@ -2,18 +2,18 @@ package net.alfredandersson.indaplusplus.raytracer.materials;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Pool;
+import net.alfredandersson.indaplusplus.raytracer.Pools;
 import net.alfredandersson.indaplusplus.raytracer.RaycastResult;
 import net.alfredandersson.indaplusplus.raytracer.Scene;
 import net.alfredandersson.indaplusplus.raytracer.lights.Light;
 
 public abstract class Material {
   
-  protected void calcLighting(Color result, Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, float xPos, float yPos, float zPos, float xNorm, float yNorm, float zNorm,
+  protected void calcLighting(Color result, Pools pools, Scene scene, float xPos, float yPos, float zPos, float xNorm, float yNorm, float zNorm,
           Vector3 hitDir, Color diffuse, Color specular, float specExponent) {
-    Color tempCol = colPool.obtain();
-    Vector3 tempVec = vecPool.obtain();
-    Vector3 tempVec2 = vecPool.obtain();
+    Color tempCol = pools.color.obtain();
+    Vector3 tempVec = pools.vec3.obtain();
+    Vector3 tempVec2 = pools.vec3.obtain();
     
     result.set(0, 0, 0, 1);
     
@@ -30,10 +30,10 @@ public abstract class Material {
       result.b += tempCol.b * (diffuse.b * intensity + specular.b * specFactor);
     }
     
-    colPool.free(tempCol);
-    vecPool.free(tempVec);
-    vecPool.free(tempVec2);
+    pools.free(tempCol);
+    pools.free(tempVec);
+    pools.free(tempVec2);
   }
   
-  public abstract Color shade(Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, Color rayColor, RaycastResult raycast, int depth);
+  public abstract Color shade(Pools pools, Scene scene, RaycastResult raycast, int depth);
 }

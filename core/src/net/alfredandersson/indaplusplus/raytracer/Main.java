@@ -36,8 +36,8 @@ public class Main extends ApplicationAdapter {
     
     Scene sc = new Scene();
     
-    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
-    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f)), 1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(Color.BLACK, Color.BLACK, Color.WHITE), 1.25f, 0, 0, 1f));
     sc.add(new DirectionalLight(1, 1, -1, 0.5f, 0.5f, 0.5f));
     
     RayTracer rt = new RayTracer(sc);

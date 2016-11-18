@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Pool;
 
 public final class RayTracer {
   
@@ -27,8 +26,7 @@ public final class RayTracer {
     
     Scene sc = scene;
     
-    Pool<Color> colPool = new Pools.ColorPool();
-    Pool<Vector3> vecPool = new Pools.VectorPool();
+    Pools pools = new Pools();
     
     float[] img = new float[width * height * 4];
     
@@ -45,13 +43,13 @@ public final class RayTracer {
         sc.raycast(res, temp, camPos.x, camPos.y, camPos.z, rayDir.x, rayDir.y, rayDir.z);
         
         if (res.isHit()) {
-          Color col = res.shape.material.shade(colPool, vecPool, scene, Color.WHITE, res, 0);
+          Color col = res.shape.material.shade(pools, scene, res, 10);
           
           img[i+0] = col.r;
           img[i+1] = col.g;
           img[i+2] = col.b;
           
-          colPool.free(col);
+          pools.free(col);
         }
         img[i+3] = 1.0f;
       }
