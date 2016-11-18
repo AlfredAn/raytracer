@@ -1,10 +1,13 @@
 package net.alfredandersson.indaplusplus.raytracer;
 
+import net.alfredandersson.indaplusplus.raytracer.shapes.Sphere;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import net.alfredandersson.indaplusplus.raytracer.materials.FlatMaterial;
 
 public class Main extends ApplicationAdapter {
   
@@ -14,7 +17,7 @@ public class Main extends ApplicationAdapter {
   @Override
   public void create() {
     Scene sc = new Scene();
-    sc.add(new Sphere(200, 300, 0, 50));
+    sc.add(new Sphere(new FlatMaterial(Color.BLUE), 200, 300, 0, 50));
     
     RayTracer rt = new RayTracer(sc);
     float[] img = rt.rayTrace(1920, 1080);

@@ -1,22 +1,26 @@
-package net.alfredandersson.indaplusplus.raytracer;
+package net.alfredandersson.indaplusplus.raytracer.shapes;
 
-public final class Sphere implements Shape {
+import com.badlogic.gdx.math.Vector3;
+import net.alfredandersson.indaplusplus.raytracer.RaycastResult;
+import net.alfredandersson.indaplusplus.raytracer.materials.Material;
+
+public final class Sphere extends Shape {
   
-  public final float x, y, z, radius, invradius;
+  public final float radius, invradius;
+  public final Vector3 pos;
   
-  public Sphere(float x, float y, float z, float radius) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+  public Sphere(Material material, float x, float y, float z, float radius) {
+    super(material);
+    pos = new Vector3(x, y, z);
     this.radius = radius;
     this.invradius = 1.0f / radius;
   }
   
   @Override
   public void raycast(RaycastResult result, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
-    float dx = x - xStart;
-    float dy = y - yStart;
-    float dz = z - zStart;
+    float dx = pos.x - xStart;
+    float dy = pos.y - yStart;
+    float dz = pos.z - zStart;
     
     // quadratic formula
     float a = xDir * xDir + yDir * yDir + zDir * zDir;
@@ -38,14 +42,19 @@ public final class Sphere implements Shape {
       return;
     }
     
+    result.shape = this;
+    result.hitDist = t;
+    
     float hitX = xStart + xDir * t;
     float hitY = yStart + yDir * t;
     float hitZ = zStart + zDir * t;
     
-    float normX = (hitX - x) * invradius;
-    float normY = (hitY - y) * invradius;
-    float normZ = (hitZ - z) * invradius;
+    result.hit.set(hitX, hitY, hitZ);
     
-    result.set(this, t, hitX, hitY, hitZ, normX, normY, normZ);
+    float normX = (hitX - pos.x) * invradius;
+    float normY = (hitY - pos.y) * invradius;
+    float normZ = (hitZ - pos.z) * invradius;
+    
+    result.norm.set(normX, normY, normZ);
   }
 }

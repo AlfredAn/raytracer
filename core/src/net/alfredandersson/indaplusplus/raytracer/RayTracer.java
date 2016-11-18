@@ -1,5 +1,8 @@
 package net.alfredandersson.indaplusplus.raytracer;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.Pool;
+
 public final class RayTracer {
   
   private final Scene scene;
@@ -14,6 +17,8 @@ public final class RayTracer {
     
     Scene sc = scene;
     
+    Pool<Color> colPool = new Pools.ColorPool();
+    
     float[] img = new float[width * height * 4];
     
     for (int y = 0, i = 0; y < height; y++) {
@@ -21,16 +26,15 @@ public final class RayTracer {
         sc.raycast(res, temp, x, y, -1000, 0, 0, 1);
         
         if (res.isHit()) {
-          img[i+0] = 1.0f;
-          img[i+1] = 0.0f;
-          img[i+2] = 0.0f;
-          img[i+3] = 1.0f;
-        } else {
-          img[i+0] = 0.0f;
-          img[i+1] = 1.0f;
-          img[i+2] = 0.0f;
-          img[i+3] = 1.0f;
+          Color col = res.shape.material.shade(colPool, Color.WHITE, res, 0);
+          
+          img[i+0] = col.r;
+          img[i+1] = col.g;
+          img[i+2] = col.b;
+          
+          colPool.free(col);
         }
+        img[i+3] = 1.0f;
       }
     }
     

@@ -1,5 +1,6 @@
 package net.alfredandersson.indaplusplus.raytracer;
 
+import net.alfredandersson.indaplusplus.raytracer.shapes.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
