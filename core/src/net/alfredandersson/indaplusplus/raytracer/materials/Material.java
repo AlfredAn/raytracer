@@ -1,7 +1,6 @@
 package net.alfredandersson.indaplusplus.raytracer.materials;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 import net.alfredandersson.indaplusplus.raytracer.RaycastResult;
@@ -36,5 +35,5 @@ public abstract class Material {
     }
   }
   
-  public abstract Color shade(Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, Color rayColor, RaycastResult raycast, Quaternion rotation, int depth);
+  public abstract Color shade(Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, Color rayColor, RaycastResult raycast, int depth);
 }

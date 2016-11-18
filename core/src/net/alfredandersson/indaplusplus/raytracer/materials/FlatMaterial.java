@@ -1,7 +1,6 @@
 package net.alfredandersson.indaplusplus.raytracer.materials;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 import net.alfredandersson.indaplusplus.raytracer.RaycastResult;
@@ -16,7 +15,7 @@ public final class FlatMaterial extends Material {
   }
   
   @Override
-  public Color shade(Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, Color rayColor, RaycastResult raycast, Quaternion rotation, int depth) {
+  public Color shade(Pool<Color> colPool, Pool<Vector3> vecPool, Scene scene, Color rayColor, RaycastResult raycast, int depth) {
     Color result = colPool.obtain();
     
     calcLighting(result, colPool, vecPool, scene,

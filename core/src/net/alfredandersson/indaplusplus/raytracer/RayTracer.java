@@ -2,7 +2,6 @@ package net.alfredandersson.indaplusplus.raytracer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 
@@ -16,8 +15,6 @@ public final class RayTracer {
   }
   
   public float[] rayTrace(int width, int height) {
-    Quaternion rot = new Quaternion();
-    
     RaycastResult res = new RaycastResult();
     RaycastResult temp = new RaycastResult();
     
@@ -33,7 +30,7 @@ public final class RayTracer {
         sc.raycast(res, temp, x, y, -1000, 0, 0, 1);
         
         if (res.isHit()) {
-          Color col = res.shape.material.shade(colPool, vecPool, scene, Color.WHITE, res, rot, 0);
+          Color col = res.shape.material.shade(colPool, vecPool, scene, Color.WHITE, res, 0);
           
           img[i+0] = col.r;
           img[i+1] = col.g;
