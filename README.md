@@ -1,1 +1,1 @@
-# alfredan-raytracing
+# alfredan-raytracer
