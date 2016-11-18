@@ -35,11 +35,13 @@ public class Main extends ApplicationAdapter {
     height = dm.height;
     
     Scene sc = new Scene();
-    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f)), 0, 0, 0, 1));
+    
+    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f)), 1.25f, 0, 0, 1f));
     sc.add(new DirectionalLight(1, 1, -1, 0.5f, 0.5f, 0.5f));
     
     RayTracer rt = new RayTracer(sc);
-    img = rt.rayTrace(1920, 1080, new Vector3(3, 0, 0), new Vector3(-1, 0, 0), new Vector3(0, 0, 1), 90);
+    img = rt.rayTrace(1920, 1080, new Vector3(0, 5, 0), new Vector3(0, -1, 0), new Vector3(0, 0, 1), 60);
     
     tex = new Texture(new CustomTextureData(img, width, height));
     
