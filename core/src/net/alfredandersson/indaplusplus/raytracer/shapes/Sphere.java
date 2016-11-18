@@ -61,6 +61,8 @@ public final class Sphere extends Shape {
     
     result.norm.set(normX, normY, normZ);
     
+    result.hitDir.set(xDir, yDir, zDir);
+    
     return true;
   }
 }

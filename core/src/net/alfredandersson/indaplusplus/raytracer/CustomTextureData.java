@@ -16,7 +16,7 @@ public class CustomTextureData implements TextureData {
     this.data = BufferUtils.newByteBuffer(data.length);
     
     for (int i = 0; i < data.length; i++) {
-      this.data.put((byte)Math.min(Math.max(Math.round(data[i] * 255), 0), 255));
+      this.data.put((byte)Math.min(Math.max(Math.round(SRGB.toSRGB(data[i]) * 255), 0), 255));
     }
     
     this.data.flip();

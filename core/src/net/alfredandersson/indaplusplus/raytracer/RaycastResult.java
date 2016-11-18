@@ -9,6 +9,7 @@ public final class RaycastResult {
   public float hitDist;
   public final Vector3 hit = new Vector3();
   public final Vector3 norm = new Vector3();
+  public final Vector3 hitDir = new Vector3();
   
   public void set(RaycastResult other) {
     shape = other.shape;
@@ -17,6 +18,7 @@ public final class RaycastResult {
     
     hit.set(other.hit);
     norm.set(other.norm);
+    hitDir.set(other.hitDir);
   }
   
   public void setNoCollision() {

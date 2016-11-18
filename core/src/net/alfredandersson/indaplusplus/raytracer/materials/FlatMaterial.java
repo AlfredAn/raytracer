@@ -9,9 +9,11 @@ import net.alfredandersson.indaplusplus.raytracer.Scene;
 public final class FlatMaterial extends Material {
   
   public final Color diffuse = new Color();
+  public final Color specular = new Color();
   
-  public FlatMaterial(Color diffuse) {
+  public FlatMaterial(Color diffuse, Color specular) {
     this.diffuse.set(diffuse);
+    this.specular.set(specular);
   }
   
   @Override
@@ -20,10 +22,11 @@ public final class FlatMaterial extends Material {
     
     calcLighting(result, colPool, vecPool, scene,
             raycast.hit.x, raycast.hit.y, raycast.hit.z,
-            raycast.norm.x, raycast.norm.y, raycast.norm.z);
-    result.set(rayColor.r * result.r * diffuse.r,
-               rayColor.g * result.g * diffuse.g,
-               rayColor.b * result.b * diffuse.b,
+            raycast.norm.x, raycast.norm.y, raycast.norm.z,
+            raycast.hitDir, diffuse, specular, 64.0f);
+    result.set(rayColor.r * result.r,
+               rayColor.g * result.g ,
+               rayColor.b * result.b,
                1.0f);
     
     return result;
