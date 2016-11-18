@@ -11,5 +11,9 @@ public abstract class Shape {
     this.material = material;
   }
   
-  public abstract void raycast(RaycastResult result, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir);
+  public boolean raycast(float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
+    return raycast(null, xStart, yStart, zStart, xDir, yDir, zDir);
+  }
+  
+  public abstract boolean raycast(RaycastResult result, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir);
 }

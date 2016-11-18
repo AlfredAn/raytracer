@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import net.alfredandersson.indaplusplus.raytracer.lights.DirectionalLight;
 import net.alfredandersson.indaplusplus.raytracer.materials.FlatMaterial;
 
 public class Main extends ApplicationAdapter {
@@ -18,6 +19,7 @@ public class Main extends ApplicationAdapter {
   public void create() {
     Scene sc = new Scene();
     sc.add(new Sphere(new FlatMaterial(Color.BLUE), 200, 300, 0, 50));
+    sc.add(new DirectionalLight(1, 1, -1, 1, 1, 1));
     
     RayTracer rt = new RayTracer(sc);
     float[] img = rt.rayTrace(1920, 1080);

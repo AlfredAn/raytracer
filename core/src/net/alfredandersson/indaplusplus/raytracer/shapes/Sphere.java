@@ -17,7 +17,7 @@ public final class Sphere extends Shape {
   }
   
   @Override
-  public void raycast(RaycastResult result, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
+  public boolean raycast(RaycastResult result, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
     float dx = pos.x - xStart;
     float dy = pos.y - yStart;
     float dz = pos.z - zStart;
@@ -30,16 +30,20 @@ public final class Sphere extends Shape {
     float insideSqrt = b * b - 4 * a * c;
     
     if (insideSqrt < 0) {
-      result.setNoCollision();
-      return;
+      if (result != null) result.setNoCollision();
+      return false;
     }
     
     float t = (-b - (float)Math.sqrt(insideSqrt)) * 0.5f / a;
     //float t2 = (-b + (float)Math.sqrt(insideSqrt)) * 0.5f / a; // this will only be useful if the camera is inside the sphere --- ignore it for performance
     
     if (t < 0) {
-      result.setNoCollision();
-      return;
+      if (result != null) result.setNoCollision();
+      return false;
+    }
+    
+    if (result == null) {
+      return true;
     }
     
     result.shape = this;
@@ -56,5 +60,7 @@ public final class Sphere extends Shape {
     float normZ = (hitZ - pos.z) * invradius;
     
     result.norm.set(normX, normY, normZ);
+    
+    return true;
   }
 }

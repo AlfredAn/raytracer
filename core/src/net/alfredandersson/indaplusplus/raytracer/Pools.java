@@ -1,6 +1,7 @@
 package net.alfredandersson.indaplusplus.raytracer;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
 
 public final class Pools {
@@ -42,6 +43,26 @@ public final class Pools {
     @Override
     protected Color newObject() {
       return new Color();
+    }
+  }
+  
+  public static final class VectorPool extends Pool<Vector3> {
+    
+    public VectorPool() {
+      super();
+    }
+    
+    public VectorPool(int initialCapacity) {
+      super(initialCapacity);
+    }
+    
+    public VectorPool(int initialCapacity, int max) {
+      super(initialCapacity, max);
+    }
+    
+    @Override
+    protected Vector3 newObject() {
+      return new Vector3();
     }
   }
 }
