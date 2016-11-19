@@ -37,7 +37,7 @@ public final class Sphere extends Shape {
     float t = (-b - (float)Math.sqrt(insideSqrt)) * 0.5f / a;
     //float t2 = (-b + (float)Math.sqrt(insideSqrt)) * 0.5f / a; // this will only be useful if the camera is inside the sphere --- ignore it for performance
     
-    if (t < 0) {
+    if (t < 0.0001) {
       if (result != null) result.setNoCollision();
       return false;
     }

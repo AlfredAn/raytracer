@@ -16,6 +16,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import net.alfredandersson.indaplusplus.raytracer.lights.DirectionalLight;
 import net.alfredandersson.indaplusplus.raytracer.materials.FlatMaterial;
+import net.alfredandersson.indaplusplus.raytracer.shapes.Plane;
 
 public class Main extends ApplicationAdapter {
   
@@ -36,8 +37,12 @@ public class Main extends ApplicationAdapter {
     
     Scene sc = new Scene();
     
-    sc.add(new Sphere(new FlatMaterial(Color.BLUE, new Color(0.3f, 0.3f, 0.3f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
-    sc.add(new Sphere(new FlatMaterial(Color.BLACK, Color.BLACK, Color.WHITE), 1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(new Color(0.05f, 0.05f, 0.9f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(new Color(0.1f, 0.1f, 0.1f, 1.0f), Color.BLACK, Color.WHITE), 1.25f, 0, 0, 1f));
+    
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(0, 0, 1), new Vector3(0, 0, 1)));
+    
     sc.add(new DirectionalLight(1, 1, -1, 0.5f, 0.5f, 0.5f));
     
     RayTracer rt = new RayTracer(sc);

@@ -42,6 +42,7 @@ project(":core") {
   
   dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "it.unimi.dsi:dsiutils:2.3.3"
   }
 }
 

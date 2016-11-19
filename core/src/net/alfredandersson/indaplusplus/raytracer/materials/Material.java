@@ -2,14 +2,14 @@ package net.alfredandersson.indaplusplus.raytracer.materials;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
-import net.alfredandersson.indaplusplus.raytracer.Pools;
+import net.alfredandersson.indaplusplus.raytracer.Utilities;
 import net.alfredandersson.indaplusplus.raytracer.RaycastResult;
 import net.alfredandersson.indaplusplus.raytracer.Scene;
 import net.alfredandersson.indaplusplus.raytracer.lights.Light;
 
 public abstract class Material {
   
-  protected void calcLighting(Color result, Pools pools, Scene scene, float xPos, float yPos, float zPos, float xNorm, float yNorm, float zNorm,
+  protected void calcLighting(Color result, Utilities pools, Scene scene, float xPos, float yPos, float zPos, float xNorm, float yNorm, float zNorm,
           Vector3 hitDir, Color diffuse, Color specular, float specExponent) {
     Color tempCol = pools.color.obtain();
     Vector3 tempVec = pools.vec3.obtain();
@@ -35,5 +35,5 @@ public abstract class Material {
     pools.free(tempVec2);
   }
   
-  public abstract Color shade(Pools pools, Scene scene, RaycastResult raycast, int depth);
+  public abstract Color shade(Utilities pools, Scene scene, RaycastResult raycast, int reflectionDepth, int diffuseDepth);
 }

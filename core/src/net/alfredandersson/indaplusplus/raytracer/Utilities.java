@@ -3,8 +3,12 @@ package net.alfredandersson.indaplusplus.raytracer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Pool;
+import it.unimi.dsi.util.XoRoShiRo128PlusRandom;
+import java.util.Random;
 
-public final class Pools {
+public final class Utilities {
+  
+  public final Random rand = new XoRoShiRo128PlusRandom();
   
   public final RaycastPool raycast = new RaycastPool();
   public final ColorPool color = new ColorPool();

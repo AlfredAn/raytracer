@@ -26,7 +26,7 @@ public final class RayTracer {
     
     Scene sc = scene;
     
-    Pools pools = new Pools();
+    Utilities pools = new Utilities();
     
     float[] img = new float[width * height * 4];
     
@@ -40,18 +40,20 @@ public final class RayTracer {
         float xx = x * xinc - 1.0f;
         rayDir.set(xx, yy, 0).mul(mat).nor();
         
-        sc.raycast(res, temp, camPos.x, camPos.y, camPos.z, rayDir.x, rayDir.y, rayDir.z);
-        
-        if (res.isHit()) {
-          Color col = res.shape.material.shade(pools, scene, res, 10);
+        for (int j = 0; j < 16; j++) {
+          sc.raycast(res, temp, camPos.x, camPos.y, camPos.z, rayDir.x, rayDir.y, rayDir.z);
           
-          img[i+0] = col.r;
-          img[i+1] = col.g;
-          img[i+2] = col.b;
-          
-          pools.free(col);
+          if (res.isHit()) {
+            Color col = res.shape.material.shade(pools, scene, res, 5, 2);
+            
+            img[i+0] += col.r / 16;
+            img[i+1] += col.g / 16;
+            img[i+2] += col.b / 16;
+            
+            pools.free(col);
+          }
+          img[i+3] = 1.0f;
         }
-        img[i+3] = 1.0f;
       }
     }
     
