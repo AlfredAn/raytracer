@@ -36,6 +36,20 @@ public final class Scene {
     return lights.get(i);
   }
   
+  public float raycast(RaycastResult temp, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
+    float closest = Float.POSITIVE_INFINITY;
+    
+    for (int i = 0; i < shapes.size(); i++) {
+      shapes.get(i).raycast(temp, xStart, yStart, zStart, xDir, yDir, zDir);
+      
+      if (temp.hitDist < closest) {
+        closest = temp.hitDist;
+      }
+    }
+    
+    return closest;
+  }
+  
   public void raycast(RaycastResult result, RaycastResult temp, float xStart, float yStart, float zStart, float xDir, float yDir, float zDir) {
     float closest = Float.POSITIVE_INFINITY;
     

@@ -5,5 +5,5 @@ import com.badlogic.gdx.math.Vector3;
 
 public interface Light {
   
-  void calc(Color lightCol, Vector3 lightNorm, float xPos, float yPos, float zPos);
+  float calc(Color lightCol, Vector3 lightNorm, float xPos, float yPos, float zPos);
 }

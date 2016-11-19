@@ -14,7 +14,8 @@ import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import net.alfredandersson.indaplusplus.raytracer.lights.DirectionalLight;
+import net.alfredandersson.indaplusplus.raytracer.RayTracer.Worker;
+import net.alfredandersson.indaplusplus.raytracer.lights.PointLight;
 import net.alfredandersson.indaplusplus.raytracer.materials.FlatMaterial;
 import net.alfredandersson.indaplusplus.raytracer.shapes.Plane;
 
@@ -23,6 +24,8 @@ public class Main extends ApplicationAdapter {
   private SpriteBatch sb;
   private Texture tex;
   
+  private Worker w;
+  private boolean isRendered = false;
   private boolean hasSaved = false;
   private boolean isFirstFrame = true;
   
@@ -38,17 +41,27 @@ public class Main extends ApplicationAdapter {
     Scene sc = new Scene();
     
     sc.add(new Sphere(new FlatMaterial(new Color(0.05f, 0.05f, 0.9f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f)), -1.25f, 0, 0, 1f));
-    sc.add(new Sphere(new FlatMaterial(new Color(0.1f, 0.1f, 0.1f, 1.0f), Color.BLACK, Color.WHITE), 1.25f, 0, 0, 1f));
+    sc.add(new Sphere(new FlatMaterial(new Color(0.1f, 0.1f, 0.1f, 1.0f), new Color(0.3f, 0.3f, 0.3f, 1.0f), new Color(0.9f, 0.9f, 0.9f, 1.0f)), 1.25f, 0, 0, 1f));
     
     sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
-            new Vector3(0, 0, 1), new Vector3(0, 0, 1)));
+            new Vector3(0, -6, 0), new Vector3(0, 1, 0)));
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(0, 6, 0), new Vector3(0, -1, 0)));
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(6, 0, 0), new Vector3(-1, 0, 0)));
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(-6, 0, 0), new Vector3(1, 0, 0)));
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(0, 0, 1), new Vector3(0, 0, -1)));
+    sc.add(new Plane(new FlatMaterial(new Color(0.9f, 0.9f, 0.9f, 1.0f), new Color(0.5f, 0.5f, 0.5f, 1.0f), new Color(0.2f, 0.2f, 0.2f, 1.0f)),
+            new Vector3(0, 0, -5), new Vector3(0, 0, 1)));
     
-    sc.add(new DirectionalLight(1, 1, -1, 0.5f, 0.5f, 0.5f));
+    //sc.add(new DirectionalLight(1, 1, -1, 0.5f, 0.5f, 0.5f));
+    sc.add(new PointLight(new Color(1, 1, 1, 1), 32, 0, 0, -2));
     
     RayTracer rt = new RayTracer(sc);
-    img = rt.rayTrace(1920, 1080, new Vector3(0, 5, 0), new Vector3(0, -1, 0), new Vector3(0, 0, 1), 60);
     
-    tex = new Texture(new CustomTextureData(img, width, height));
+    w = rt.rayTraceAsync(width, height, new Vector3(0, 5, 0), new Vector3(0, -1, 0), new Vector3(0, 0, 1), 60);
     
     sb = new SpriteBatch();
   }
@@ -58,7 +71,13 @@ public class Main extends ApplicationAdapter {
       Gdx.app.exit();
     }
     
-    if (!hasSaved && !isFirstFrame) {
+    if (!isRendered) {
+      if (w.isDone()) {
+        img = w.getResult();
+        tex = new Texture(new CustomTextureData(img, width, height));
+        isRendered = true;
+      }
+    } else if (!hasSaved && !isFirstFrame) {
       hasSaved = true;
       
       // convert and save image
@@ -92,9 +111,11 @@ public class Main extends ApplicationAdapter {
   public void render() {
     update();
     
-    sb.begin();
-    sb.draw(tex, 0, 0);
-    sb.end();
+    if (tex != null) {
+      sb.begin();
+      sb.draw(tex, 0, 0);
+      sb.end();
+    }
     
     isFirstFrame = false;
   }

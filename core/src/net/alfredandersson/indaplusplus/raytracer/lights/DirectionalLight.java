@@ -14,8 +14,10 @@ public final class DirectionalLight implements Light {
   }
   
   @Override
-  public void calc(Color lightCol, Vector3 lightNorm, float xPos, float yPos, float zPos) {
+  public float calc(Color lightCol, Vector3 lightNorm, float xPos, float yPos, float zPos) {
     lightCol.set(col);
     lightNorm.set(norm);
+    
+    return Float.POSITIVE_INFINITY;
   }
 }

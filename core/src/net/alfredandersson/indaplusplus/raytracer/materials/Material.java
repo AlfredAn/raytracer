@@ -17,9 +17,15 @@ public abstract class Material {
     
     result.set(0, 0, 0, 1);
     
+    RaycastResult temp = pools.raycast.obtain();
     for (int i = 0; i < scene.numLights(); i++) {
       Light light = scene.getLight(i);
-      light.calc(tempCol, tempVec, xPos, yPos, zPos);
+      
+      float dist = light.calc(tempCol, tempVec, xPos, yPos, zPos);
+      
+      if (scene.raycast(temp, xPos, yPos, zPos, tempVec.x, tempVec.y, tempVec.z) < dist) {
+        continue;
+      }
       
       float intensity = Math.max(tempVec.dot(xNorm, yNorm, zNorm), 0);
       tempVec2.set(xNorm, yNorm, zNorm).scl(-2 * hitDir.dot(xNorm, yNorm, zNorm)).add(hitDir);
@@ -30,6 +36,7 @@ public abstract class Material {
       result.b += tempCol.b * (diffuse.b * intensity + specular.b * specFactor);
     }
     
+    pools.free(temp);
     pools.free(tempCol);
     pools.free(tempVec);
     pools.free(tempVec2);
